@@ -44,9 +44,22 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         title: Text('Wireless ECG Monitor'),
       ),
-      body: Center(
-        child: DataChart(
-          data: data,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              child: DataChart(
+                data: data,
+              ),
+            ),
+            Container(
+              width: 300,
+              height: 300,
+              child: Center(
+                child: Text('ECG monitor'),
+              ),
+            ),
+          ],
         ),
       ),
     );
