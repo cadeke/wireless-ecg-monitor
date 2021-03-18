@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Datapoint {
   double time;
   double voltage;

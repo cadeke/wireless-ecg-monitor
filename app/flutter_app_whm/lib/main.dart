@@ -4,10 +4,14 @@ import 'dart:convert';
 import 'datapoint.dart';
 
 void main() {
-  String json = '{"time": 0.1, "voltage": 1.0}';
-  Datapoint datapoint = Datapoint.fromJson(jsonDecode(json));
+  String arrayObjsText =
+      '{"tags": [{"time": 0.1, "voltage": 1.0}, {"time": 0.2, "voltage": 2.0}, {"time": 0.3, "voltage": 1.5}]}';
 
-  print(datapoint.toString());
+  var tagObjsJson = jsonDecode(arrayObjsText)['tags'] as List;
+  List tagObjs =
+      tagObjsJson.map((tagJson) => Datapoint.fromJson(tagJson)).toList();
+
+  print(tagObjs);
 }
 
 class MyApp extends StatelessWidget {
