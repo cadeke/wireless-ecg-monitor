@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_whm/home.dart';
+import 'dart:convert';
+import 'datapoint.dart';
 
 void main() {
-  runApp(MyApp());
+  String json = '{"time": 0.1, "voltage": 1.0}';
+  Datapoint datapoint = Datapoint.fromJson(jsonDecode(json));
+
+  print(datapoint.toString());
 }
 
 class MyApp extends StatelessWidget {
