@@ -13,7 +13,12 @@ Future loadJson() async {
   List<VoltageSeries> returndata;
   String jsonGraph = await _loadJsonData();
   List<String> jsonList = jsonGraph.split('{');
-  for (int i = 1; i < jsonList.length; i++) {
+
+  jsonList.removeRange(0, 2);
+  // print(jsonList[0]);
+  jsonList.removeLast();
+
+  for (int i = 0; i < jsonList.length; i++) {
     jsonList[i] = jsonList[i].substring(0, jsonList[i].length - afterLength);
     print(jsonList[i]);
   }
