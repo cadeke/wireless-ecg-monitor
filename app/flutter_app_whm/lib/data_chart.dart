@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_whm/voltageseries.dart';
 
 class DataChart extends StatelessWidget {
-  final List<VoltageSeries> data;
+  final List<dynamic> data;
 
   DataChart({@required this.data});
 
   @override
   Widget build(BuildContext context) {
-    List<charts.Series<VoltageSeries, double>> series = [
+    List<charts.Series<dynamic, double>> series = [
       charts.Series(
           id: "Voltage",
           data: data,
-          domainFn: (VoltageSeries series, _) => series.time,
-          measureFn: (VoltageSeries series, _) => series.voltage,
-          colorFn: (VoltageSeries series, _) => series.lineColor)
+          domainFn: (dynamic series, _) => series.time,
+          measureFn: (dynamic series, _) => series.voltage,
+          colorFn: (dynamic series, _) => series.lineColor)
     ];
 
     return Container(
