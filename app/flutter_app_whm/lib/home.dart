@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_whm/data_chart.dart';
 import 'package:flutter_app_whm/voltageseries.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'json.dart';
 
 class HomePage extends StatelessWidget {
   final List<VoltageSeries> data = [
