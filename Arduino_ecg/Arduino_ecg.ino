@@ -9,10 +9,6 @@ int beat = 0;
 bool tila = false;
 float raja = 0;
 
-void setup() {
-  Serial.begin(115200);
-}
-
 float ecg_data(){
   ecgRaw = analogRead(A0);  
   float voltage = (ecgValue * (5.0 / 1023.0));
@@ -28,7 +24,9 @@ int heartbeat(){
     }    
   }
   if(tila){
-    tila = false;
+    if(raja < 0.6){
+      tila = false;
+    }   
   }
   return beat;
 }
@@ -39,6 +37,11 @@ void send_data(float ecg, int bpm){
   Serial.print(ecg);
   Serial.print(" ");
   Serial.println(bpm);
+}
+
+
+void setup() {
+  Serial.begin(115200);
 }
 
 void loop() {
