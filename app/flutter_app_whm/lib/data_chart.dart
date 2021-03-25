@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_whm/voltageseries.dart';
 
 class DataChart extends StatelessWidget {
-  final List<dynamic> data;
+  final List<VoltageSeries> data;
 
   DataChart({@required this.data});
 

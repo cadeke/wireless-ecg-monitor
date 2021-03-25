@@ -18,6 +18,8 @@ Future loadJson() async {
   // print(jsonList[0]);
   jsonList.removeLast();
 
+  List<String> stringList = (jsonDecode(jsonGraph) as List<dynamic>);
+
   for (int i = 0; i < jsonList.length; i++) {
     jsonList[i] = jsonList[i].substring(0, jsonList[i].length - afterLength);
     print(jsonList[i]);
