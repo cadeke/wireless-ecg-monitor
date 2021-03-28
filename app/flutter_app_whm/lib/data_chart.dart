@@ -9,13 +9,13 @@ class DataChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<charts.Series<dynamic, double>> series = [
+    List<charts.Series<VoltageSeries, double>> series = [
       charts.Series(
           id: "Voltage",
           data: data,
-          domainFn: (dynamic series, _) => series.time,
-          measureFn: (dynamic series, _) => series.voltage,
-          colorFn: (dynamic series, _) => series.lineColor)
+          domainFn: (VoltageSeries series, _) => series.time,
+          measureFn: (VoltageSeries series, _) => series.voltage,
+          colorFn: (VoltageSeries series, _) => series.lineColor)
     ];
 
     return Container(

@@ -10,18 +10,39 @@ Future<String> _loadJsonData() async {
 int afterLength = 8;
 
 Future loadJson() async {
-  List<VoltageSeries> returndata;
   String jsonGraph = await _loadJsonData();
-  List<String> jsonList = jsonGraph.split('{');
 
-  jsonList.removeRange(0, 2);
-  // print(jsonList[0]);
-  jsonList.removeLast();
+  final jsonMap = json.decode(jsonGraph);
+  List<Word> temp = (jsonMap['data'] as List)
+      .map((itemWord) => Word.fromJson(itemWord))
+      .toList();
+  // List<String> jsonList = jsonGraph.split('{');
 
-  List<String> stringList = (jsonDecode(jsonGraph) as List<dynamic>);
+  // jsonList.removeRange(0, 2);
+  // // print(jsonList[0]);
+  // jsonList.removeLast();
 
-  for (int i = 0; i < jsonList.length; i++) {
-    jsonList[i] = jsonList[i].substring(0, jsonList[i].length - afterLength);
-    print(jsonList[i]);
+  // List<String> stringList = (jsonDecode(jsonGraph) as List<dynamic>);
+
+  // for (int i = 0; i < jsonList.length; i++) {
+  //   jsonList[i] = jsonList[i].substring(0, jsonList[i].length - afterLength);
+  //   print(jsonList[i]);
+  // }
+  return temp;
+}
+
+class Word {
+  double teste;
+
+  Word({this.teste});
+
+  Word.fromJson(Map<String, dynamic> json) {
+    teste = json['teste'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['teste'] = this.teste;
+    return data;
   }
 }
