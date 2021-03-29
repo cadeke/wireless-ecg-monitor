@@ -12,4 +12,6 @@ class Datapoint {
   String toString() {
     return '{ ${this.time}, ${this.voltage} }';
   }
+
+  toList() {}
 }
