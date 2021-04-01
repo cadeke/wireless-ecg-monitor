@@ -1,5 +1,6 @@
 import 'dart:async' show Future;
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_app_whm/voltageseries.dart';
 import 'datapoint.dart';
@@ -12,8 +13,13 @@ Future<String> _loadJsonData() async {
 
 Future loadJson() async {
   String jsonGraph = await _loadJsonData();
+  print(jsonGraph);
 
-  var tagObjsJson = jsonDecode(jsonGraph)['datapoints'] as List;
+  String arrayObjsText =
+      '{"datapoints": [{"time": "0.0001", "voltage": 1.067}, {"time": "0.002", "voltage": 1.767}, {"time": "0.04", "voltage": 0.067}]}';
+
+  var tagObjsJson = await jsonDecode(arrayObjsText)['datapoints'] as List;
+  print(tagObjsJson);
   List<Datapoint> datapointObjs =
       tagObjsJson.map((dataJson) => Datapoint.fromJson(dataJson)).toList();
 
