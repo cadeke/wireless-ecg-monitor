@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             Container(
               child: DataChart(
-                data: loadJson(),
+                data: data,
               ),
             ),
             Container(

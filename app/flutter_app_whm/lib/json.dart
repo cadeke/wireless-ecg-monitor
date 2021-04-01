@@ -8,16 +8,16 @@ Future<String> _loadJsonData() async {
   return await rootBundle.loadString('assets/data/dummy.json');
 }
 
-int afterLength = 8;
+//int afterLength = 8;
 
 Future loadJson() async {
   String jsonGraph = await _loadJsonData();
 
-  var tagObjsJson = jsonDecode(jsonGraph)['Datapoint'] as List;
-  List datapointObjs =
-      tagObjsJson.map((dataJson) => Datapoint.fromJson(dataJson).toList());
+  var tagObjsJson = jsonDecode(jsonGraph)['datapoints'] as List;
+  List<Datapoint> datapointObjs =
+      tagObjsJson.map((dataJson) => Datapoint.fromJson(dataJson)).toList();
 
-  print(jsonGraph);
+  print(datapointObjs);
   // final jsonMap = json.decode(jsonGraph);
   // List<Word> temp = (jsonMap['data'] as List)
   //     .map((itemWord) => Word.fromJson(itemWord))
