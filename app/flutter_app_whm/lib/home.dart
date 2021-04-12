@@ -4,6 +4,7 @@ import 'package:flutter_app_whm/data_chart.dart';
 import 'package:flutter_app_whm/voltageseries.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'json.dart';
+import 'main.dart';
 
 class HomePage extends StatelessWidget {
   static double timeNumber = 0.0;
@@ -80,6 +81,14 @@ class HomePage extends StatelessWidget {
               height: 300,
               child: Center(
                 child: Text('ECG monitor'),
+              ),
+            ),
+            Container(
+              child: Center(
+                child: Text(
+                  'stringResponse',
+                  style: TextStyle(fontSize: 30),
+                ),
               ),
             ),
           ],

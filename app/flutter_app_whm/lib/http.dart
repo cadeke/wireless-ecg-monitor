@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-import 'main.dart';
+//import 'main.dart';
 
 Future<Album> fetchAlbum() async {
   final response =
