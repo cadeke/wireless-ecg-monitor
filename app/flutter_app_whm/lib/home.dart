@@ -4,11 +4,13 @@ import 'package:flutter_app_whm/data_chart.dart';
 import 'package:flutter_app_whm/voltageseries.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'json.dart';
+import 'main.dart';
 
 class HomePage extends StatelessWidget {
+  static double timeNumber = 0.0;
   final List<VoltageSeries> data = [
     VoltageSeries(
-        time: 0.0,
+        time: timeNumber,
         voltage: 1,
         lineColor: charts.ColorUtil.fromDartColor(Colors.red)),
     VoltageSeries(
@@ -66,10 +68,53 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         title: Text('Wireless ECG Monitor'),
       ),
-      body: Center(
-        child: DataChart(
-          data: data,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              child: DataChart(
+                data: data,
+              ),
+            ),
+            Container(
+              width: 300,
+              height: 300,
+              child: Center(
+                child: Text('ECG monitor'),
+              ),
+            ),
+            Container(
+              child: Center(
+                child: Text(
+                  'stringResponse',
+                  style: TextStyle(fontSize: 30),
+                ),
+              ),
+            ),
+          ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            // ignore: deprecated_member_use
+            title: Text('Home'),
+            backgroundColor: Colors.red[900],
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            // ignore: deprecated_member_use
+            title: Text('Search'),
+            backgroundColor: Colors.red[900],
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            // ignore: deprecated_member_use
+            title: Text('Menu'),
+            backgroundColor: Colors.red[900],
+          )
+        ],
       ),
     );
   }
