@@ -19,13 +19,15 @@ const shortQuery = "30s";
 const mediumQuery = "1m";
 const longQuery = "2m";
 
-
 let data = [];
 
+function showInfo(req){
+  console.log(`Route "${req.url}" was requested by "${req.header('x-forwarded-for') || req.connection.remoteAddress.substr(7)}"`);
+}
 
 // Default route
 app.get("/", (req, res) => {
-  console.log("Requested route:", req.url);
+  showInfo(req);
   res.send("Everything works!");
 });
 
@@ -39,7 +41,7 @@ app.get("/data/short", (req, res) => {
 
   let fluxQuery = `join(tables: {voltage: ${t1}, timestamp: ${t2}}, on: ["_time"])`;
 
-  console.log("Requested route:", req.url);
+  showInfo(req);
   let myPromise = new Promise(function (myResolve, myReject) {
     data.length = 0; // clear array
     queryApi.queryRows(fluxQuery, {
@@ -79,7 +81,7 @@ app.get("/data/medium", (req, res) => {
 
   let fluxQuery = `join(tables: {voltage: ${t1}, timestamp: ${t2}}, on: ["_time"])`;
 
-  console.log("Requested route:", req.url);
+  showInfo(req);
   let myPromise = new Promise(function (myResolve, myReject) {
     data.length = 0; // clear array
     queryApi.queryRows(fluxQuery, {
@@ -119,7 +121,7 @@ app.get("/data/long", (req, res) => {
 
   let fluxQuery = `join(tables: {voltage: ${t1}, timestamp: ${t2}}, on: ["_time"])`;
 
-  console.log("Requested route:", req.url);
+  showInfo(req);
   let myPromise = new Promise(function (myResolve, myReject) {
     data.length = 0; // clear array
     queryApi.queryRows(fluxQuery, {
