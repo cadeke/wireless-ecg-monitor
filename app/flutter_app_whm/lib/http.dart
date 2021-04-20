@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 
-//import 'main.dart';
+import 'main.dart';
 
 Future<Album> fetchAlbum() async {
   final response =
@@ -46,6 +46,20 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late Future<Album> futureAlbum;
 
+  final Uri url = Uri.parse('https://thegrowingdeveloper.org/apiview?id=4');
+  List data;
+
+  Future<String> getDummyData() async {
+    var response = await http.get(url);
+
+    setState(() {
+      var resBody = json.decode(response.body);
+      data = resBody["data"];
+    });
+
+    return "Succes!";
+  }
+
   @override
   void initState() {
     super.initState();
@@ -57,7 +71,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Fetch Data Example',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: Scaffold(
         appBar: AppBar(
