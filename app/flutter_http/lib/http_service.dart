@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart';
 import 'datapoint_model.dart';
 
@@ -16,6 +15,8 @@ class HttpService {
 
       List<DataPoint> data =
           body.map((dynamic item) => DataPoint.fromJson(item)).toList();
+
+      data.toString();
 
       return data;
     } else {
