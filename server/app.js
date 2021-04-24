@@ -3,17 +3,17 @@ import express from "express";
 
 const app = express();
 
-const url = "http://192.168.0.188:8086"; // change this to the IP of the InfluxDB instance (usually it's http://localhost:8086)
-const org = "InternationalProject"; // change this to the name of your organisation
+const url = "http://192.168.1.101:8086"; // change this to the IP of the InfluxDB instance (usually it's http://localhost:8086)
+const org = "intproject"; // change this to the name of your organisation
 const token =
-  "czinWTEvjgorrwNV50JmwsWuYhXfH2x3eqJ73IViyej-g0Fq3Dv-oucgka8ZOuVY5C4-nH9h3fC6WwhYIxkNGQ=="; // change this to the token of your bucket
+  "lpdGK1n0Mdce9t9auJ9nvPH4YSDSlnFLGTUESkxe6HosLjHGIsadzakVhHgTtPHOGqRMwHqdgqHWHv0SFPblpg=="; // change this to the token of your bucket
 
 const queryApi = new InfluxDB({ url, token }).getQueryApi(org);
 
-const bucket = "testing_server";
-const measurementName = "ecg";
-const fieldVoltageName = "voltage";
-const fieldTimestampName = "timestamp";
+const bucket = "ecgdb";
+const measurementName = "heart_rate";
+const fieldVoltageName = "ecgValue";
+const fieldTimestampName = "timeValue";
 
 const shortQuery = "30s";
 const mediumQuery = "1m";
