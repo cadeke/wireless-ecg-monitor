@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_http/datapoint_model.dart';
 import 'package:flutter_http/http_service.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'dart:convert';
+import 'data_chart.dart';
 
 final HttpService httpService = HttpService();
 
@@ -21,17 +24,13 @@ class DataPage extends StatelessWidget {
           if (snapshot.hasData) {
             List<DataPoint> posts = snapshot.data;
             return ListView(
-              children: posts
-                  .map(
-                    (DataPoint dp) => ListTile(
-                      title: Text("DataPoint"),
-                      subtitle: Text("TS:" +
-                          dp.timestamp.toString() +
-                          " V: " +
-                          dp.voltage.toString()),
-                    ),
-                  )
-                  .toList(),
+              children: <Widget>[
+                Container(
+                  child: DataChart(
+                    data: data,
+                  ),
+                ),
+              ],
             );
           } else {
             return Center(child: CircularProgressIndicator());
