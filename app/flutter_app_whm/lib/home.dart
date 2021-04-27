@@ -95,6 +95,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -115,6 +116,57 @@ class HomePage extends StatelessWidget {
             backgroundColor: Colors.red[900],
           )
         ],
+      ),
+    );
+  }
+}
+
+class Search extends StatelessWidget {
+  int _currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.red[50],
+      appBar: AppBar(
+        backgroundColor: Colors.red[900],
+        centerTitle: true,
+        title: Text('Search'),
+      ),
+      body: Center(
+          child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => HomePage()));
+              },
+              child: Text('Go back to page 1'))),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 2,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            // ignore: deprecated_member_use
+            title: Text('Home'),
+            backgroundColor: Colors.red[900],
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            // ignore: deprecated_member_use
+            title: Text('Search'),
+            backgroundColor: Colors.red[900],
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            // ignore: deprecated_member_use
+            title: Text('Menu'),
+            backgroundColor: Colors.red[900],
+          )
+        ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
       ),
     );
   }

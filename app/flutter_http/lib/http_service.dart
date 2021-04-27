@@ -26,15 +26,15 @@ class HttpService {
   }
 }
 
-class Convert {
-  final List<DataPoint> data;
-  final double time;
-  final double voltage;
-  final charts.Color lineColor;
+// class Convert {
+//   final List<DataPoint> data;
+//   final double time;
+//   final double voltage;
+//   final charts.Color lineColor;
 
-  Convert({this.data, this.time, this.voltage, this.lineColor});
+//   Convert({this.data, this.time, this.voltage, this.lineColor});
 
-  factory Convert.fromList(Map<DataPoint, VoltageSeries>){
-    return Convert(); 
-  }
-}
+//   factory Convert.fromList(Map<DataPoint, VoltageSeries>){
+//     return Convert();
+//   }
+// }

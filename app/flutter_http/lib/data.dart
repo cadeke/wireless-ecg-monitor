@@ -7,7 +7,28 @@ import 'data_chart.dart';
 
 final HttpService httpService = HttpService();
 
-class DataPage extends StatelessWidget {
+class DataPage extends StatefulWidget {
+  DataPage({Key key}) : super(key: key);
+
+  @override
+  DataPageState createState() => DataPageState();
+}
+
+class DataPageState extends State<DataPage> {
+  String currentPage;
+  int _currentIndex = 0;
+  final List<Widget> _children = <Widget>[
+    Home(),
+    Search(),
+    Menu(),
+  ];
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +48,7 @@ class DataPage extends StatelessWidget {
               children: <Widget>[
                 Container(
                   child: DataChart(
-                    data: data,
+                    data: posts,
                   ),
                 ),
               ],
@@ -38,23 +59,23 @@ class DataPage extends StatelessWidget {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: onTabTapped,
+        selectedItemColor: Colors.black,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            // ignore: deprecated_member_use
-            title: Text('Home'),
+            icon: new Icon(Icons.home),
+            label: 'Home',
             backgroundColor: Colors.red[900],
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            // ignore: deprecated_member_use
-            title: Text('Search'),
+            icon: new Icon(Icons.search),
+            label: 'Search',
             backgroundColor: Colors.red[900],
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            // ignore: deprecated_member_use
-            title: Text('Menu'),
+            icon: new Icon(Icons.menu),
+            label: 'Menu',
             backgroundColor: Colors.red[900],
           )
         ],
