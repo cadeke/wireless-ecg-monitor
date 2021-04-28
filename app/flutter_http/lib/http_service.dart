@@ -18,7 +18,7 @@ class HttpService {
       List<DataPoint> data =
           body.map((dynamic item) => DataPoint.fromJson(item)).toList();
 
-      data.toString();
+      //data.toString();
       return data;
     } else {
       throw "Error: cannot get data!";
