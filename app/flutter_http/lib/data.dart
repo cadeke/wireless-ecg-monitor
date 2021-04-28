@@ -81,6 +81,30 @@ class DataPageState extends State<DataPage> {
                 if (snapshot.hasData) {
                   List<DataPoint> posts = snapshot.data;
                   return ListView(
+                    children: posts
+                        .map(
+                          (DataPoint dp) => ListTile(
+                            title: Text("DataPoint"),
+                            subtitle: Text("TS:" +
+                                dp.timestamp.toString() +
+                                " V: " +
+                                dp.voltage.toString()),
+                          ),
+                        )
+                        .toList(),
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+            FutureBuilder(
+              future: httpService.getData(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<DataPoint>> snapshot) {
+                if (snapshot.hasData) {
+                  List<DataPoint> posts = snapshot.data;
+                  return ListView(
                     children: <Widget>[
                       Container(
                         child: DataChart(
