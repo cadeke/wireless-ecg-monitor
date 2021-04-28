@@ -44,7 +44,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Future<Album> futureAlbum;
+  Future<Album> futureAlbum;
 
   final Uri url = Uri.parse('https://thegrowingdeveloper.org/apiview?id=4');
   List data;

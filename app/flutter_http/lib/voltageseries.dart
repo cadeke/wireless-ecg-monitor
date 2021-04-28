@@ -8,4 +8,13 @@ class VoltageSeries {
 
   VoltageSeries(
       {@required this.time, @required this.voltage, @required this.lineColor});
+
+  // factory VoltageSeries.fromJson(dynamic json) {
+  //   return VoltageSeries(json['time'] as double, json['voltage'] as double);
+  // }
+
+  // @override
+  // String toString() {
+  //   return '{${this.time}, ${this.voltage} }';
+  // }
 }
