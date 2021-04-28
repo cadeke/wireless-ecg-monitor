@@ -41,27 +41,6 @@ class DataPageState extends State<DataPage> {
     });
   }
 
-  Stopwatch _stopwatch;
-
-  @override
-  void initState() {
-    super.initState();
-    _stopwatch = Stopwatch();
-  }
-
-  void handleStartStop() {
-    if (_stopwatch.isRunning) {
-      _stopwatch.stop();
-    } else {
-      _stopwatch.start();
-    }
-    setState(() {}); //Re-Render the page
-  }
-
-  Widget Record() {
-    return Container();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,75 +50,29 @@ class DataPageState extends State<DataPage> {
         centerTitle: true,
         title: Text('Wireless ECG Monitor'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            FutureBuilder(
-              future: httpService.getData(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<DataPoint>> snapshot) {
-                if (snapshot.hasData) {
-                  List<DataPoint> posts = snapshot.data;
-                  return ListView(
-                    children: posts
-                        .map(
-                          (DataPoint dp) => ListTile(
-                            title: Text("DataPoint"),
-                            subtitle: Text("TS:" +
-                                dp.timestamp.toString() +
-                                " V: " +
-                                dp.voltage.toString()),
-                          ),
-                        )
-                        .toList(),
-                  );
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
-            FutureBuilder(
-              future: httpService.getData(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<DataPoint>> snapshot) {
-                if (snapshot.hasData) {
-                  List<DataPoint> posts = snapshot.data;
-                  return ListView(
-                    children: <Widget>[
-                      Container(
-                        child: DataChart(
-                          data: posts,
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
-            Container(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(formatTime(_stopwatch.elapsedMilliseconds),
-                            style: TextStyle(fontSize: 48.0)),
-                        ElevatedButton(
-                            onPressed: handleStartStop,
-                            child:
-                                Text(_stopwatch.isRunning ? 'Stop' : 'Start')),
-                      ],
+      body: FutureBuilder(
+        future: httpService.getData(),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<DataPoint>> snapshot) {
+          if (snapshot.hasData) {
+            List<DataPoint> posts = snapshot.data;
+            return ListView(
+              children: posts
+                  .map(
+                    (DataPoint dp) => ListTile(
+                      title: Text("DataPoint"),
+                      subtitle: Text("TS:" +
+                          dp.timestamp.toString() +
+                          " V: " +
+                          dp.voltage.toString()),
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+                  )
+                  .toList(),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -194,21 +127,25 @@ class _MySearchPageState extends State<MySearchPage> {
       appBar: new AppBar(
         title: new Text('App Name'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: 300,
-              height: 300,
-              child: Center(
-                child: Text(
-                  'Comming Soon',
-                  style: TextStyle(fontSize: 30),
+      body: FutureBuilder(
+        future: httpService.getData(),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<DataPoint>> snapshot) {
+          if (snapshot.hasData) {
+            List<DataPoint> posts = snapshot.data;
+            return ListView(
+              children: <Widget>[
+                Container(
+                  child: DataChart(
+                    data: posts,
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ),
+              ],
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -257,26 +194,50 @@ class _MyMenuPageState extends State<MyMenuPage> {
     });
   }
 
+  Stopwatch _stopwatch;
+
+  @override
+  void initState() {
+    super.initState();
+    _stopwatch = Stopwatch();
+  }
+
+  void handleStartStop() {
+    if (_stopwatch.isRunning) {
+      _stopwatch.stop();
+    } else {
+      _stopwatch.start();
+    }
+    setState(() {}); //Re-Render the page
+  }
+
+  Widget Record() {
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('App Name'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: 300,
-              height: 300,
-              child: Center(
-                child: Text(
-                  'Comming Soon',
-                  style: TextStyle(fontSize: 30),
-                ),
+      body: Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(formatTime(_stopwatch.elapsedMilliseconds),
+                      style: TextStyle(fontSize: 48.0)),
+                  ElevatedButton(
+                      onPressed: handleStartStop,
+                      child: Text(_stopwatch.isRunning ? 'Stop' : 'Start')),
+                ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
