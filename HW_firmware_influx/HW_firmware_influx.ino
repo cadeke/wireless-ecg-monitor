@@ -28,20 +28,10 @@ Point sensor("heart_rate");
 
 int LED = 14; //Led pin
 
-unsigned long myTime = 0;
-unsigned long firstPeak = 0;
-unsigned long secondPeak = 0;
-int avg = 0;
-int amplitude = 0;
-int beat = 0;
-float iirNew,iirOld,iirFiltered;
-bool situation = true;
-float threshold = 0;
-float minData = 0;
-float maxData = 0;
-float x = 0;
-float y = 0;
-bool calc = true;
+unsigned long myTime,firstPeak,secondPeak  = 0;
+int avg,amplitude,beat,calcBPM,diff = 0;
+float iirNew,iirOld,iirFiltered,minData,maxData,x,y,upper,lower = 0.0;
+bool goup,thresh1,thresh2 = true;
 
 void setup_wifi() { //Wifi setup void
   delay(10);  
@@ -80,41 +70,46 @@ void setup_influx(){
 
 int bpm(float data, unsigned long aika){
   
-  if(situation){
-    if(data >= threshold && data > maxData){
-        maxData = data; 
-        if(calc){
-          firstPeak = aika;}
-        if(!calc){
-          secondPeak = aika;}}    
-    else{
-      x = maxData;
-      if(calc){
-        beat = round(60/((firstPeak - secondPeak)*10^-3));
-        calc = false;
-      }
-      if(calc == false){
-        beat = round(60/((secondPeak - firstPeak)*10^-3));
-        calc = true;
-      }
-      maxData = 0;
-      situation = false;
-    }}
-  if(!situation){
-    if(data <= threshold){
-      if(data < minData){
-        minData = data;
-      }
+  if(!goup){  //if going down
+    if(data < minData){
+      minData = data;    
     }
-    else{
+    if(data > lower){
+      thresh2 = true;     
+    }
+    if(thresh2 && data > upper){
+      thresh1 = true;      
+    }
+    if(thresh1 && thresh2){ //if both thresholds are true
       y = minData;
       minData = 0;
-      situation = true;
+      goup = true;      
     }
+    return calcBPM;
+  }          //if going up
+  if(data > maxData){ 
+    maxData = data;
+    secondPeak = aika;    
   }
-  amplitude = (x-y)/2;
-  threshold = amplitude/3;
-  return 12;
+  if(data < upper){
+    thresh1 = false;  
+  }
+  if(!thresh1 && data < lower){
+    thresh2 = false;  
+  }
+  if(!thresh1 && !thresh2){ //if both thresholds are false
+    x = maxData;
+    maxData = 0;
+    diff = secondPeak - firstPeak;
+    if(diff > 500 && diff < 1200){ // filter random disturbances
+      calcBPM = round(1000*60.0/(diff)); // calculate BPM from time difference between peaks
+    }
+    firstPeak = secondPeak;
+    upper = ((x-y)/2)/3; // set thresholds 
+    lower = upper - 10;
+    goup = false;  
+  }
+return calcBPM;
 }
 
 float iir_filter(int data){
@@ -135,23 +130,18 @@ float iir_filter(int data){
   return iirFiltered;
 }
 
-void send_data(float piezo, unsigned long timeStamp/*, int bpm*/){
+void send_data(float piezo, unsigned long timeStamp, int bpm){
   // Clear fields for reusing the point. Tags will remain untouched
   sensor.clearFields();
 
   // Store measured value into point
   sensor.addField("ecgValue", piezo);
-  //sensor.addField("bpm", bpm)
+  sensor.addField("bpm", bpm);
   sensor.addField("timeValue", timeStamp);
 
   // Print what are we exactly writing
   Serial.print("Writing: ");
   Serial.println(sensor.toLineProtocol());
-
-  // If no Wifi signal, try to reconnect it
-//  while (WiFi.status() != WL_CONNECTED) {
-//    Serial.println("Wifi connection lost");
-//  }
 
   // Write point
   if (!client.writePoint(sensor)) {
@@ -168,13 +158,14 @@ void setup() {
 }
 
 void loop() {
-  
   myTime = millis();
+  beat = bpm(iir_filter(analogRead(A0)), myTime);
+  send_data(iir_filter(analogRead(A0)), myTime, beat);
   Serial.print(myTime);
-  //bpm(iir_filter(analogRead(A0)), myTime);
-  //Serial.print(myTime);
-  Serial.print(" ");
-  Serial.println(iir_filter(analogRead(A0)));
-  send_data(iir_filter(analogRead(A0)), myTime);
-  delay(78);
+  Serial.print(" ms ");
+  Serial.print(iir_filter(analogRead(A0)));
+  Serial.print(" ecg ");
+  Serial.print(beat);
+  Serial.println(" BPM");
+  delay(25);
 }
