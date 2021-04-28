@@ -51,31 +51,35 @@ class DataPageState extends State<DataPage> {
         title: Text('Wireless ECG Monitor'),
       ),
       body: Column(
-        children: [
-          _children[_currentIndex],
-          FutureBuilder(
-            future: httpService.getData(),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<DataPoint>> snapshot) {
-              if (snapshot.hasData) {
-                List<DataPoint> posts = snapshot.data;
-                return ListView(
-                  children: posts
-                      .map(
-                        (DataPoint dp) => ListTile(
-                          title: Text("DataPoint"),
-                          subtitle: Text("TS:" +
-                              dp.timestamp.toString() +
-                              " V: " +
-                              dp.voltage.toString()),
-                        ),
-                      )
-                      .toList(),
-                );
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
+        children: <Widget>[
+          Container(
+            child: _children[_currentIndex],
+          ),
+          Container(
+            child: FutureBuilder(
+              future: httpService.getData(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<DataPoint>> snapshot) {
+                if (snapshot.hasData) {
+                  List<DataPoint> posts = snapshot.data;
+                  return ListView(
+                    children: posts
+                        .map(
+                          (DataPoint dp) => ListTile(
+                            title: Text("DataPoint"),
+                            subtitle: Text("TS:" +
+                                dp.timestamp.toString() +
+                                " V: " +
+                                dp.voltage.toString()),
+                          ),
+                        )
+                        .toList(),
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -133,27 +137,31 @@ class _MySearchPageState extends State<MySearchPage> {
         title: new Text('App Name'),
       ),
       body: Column(
-        children: [
-          _children[_currentIndex],
-          FutureBuilder(
-            future: httpService.getData(),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<DataPoint>> snapshot) {
-              if (snapshot.hasData) {
-                List<DataPoint> posts = snapshot.data;
-                return ListView(
-                  children: <Widget>[
-                    Container(
-                      child: DataChart(
-                        data: posts,
+        children: <Widget>[
+          Container(
+            child: _children[_currentIndex],
+          ),
+          Container(
+            child: FutureBuilder(
+              future: httpService.getData(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<DataPoint>> snapshot) {
+                if (snapshot.hasData) {
+                  List<DataPoint> posts = snapshot.data;
+                  return ListView(
+                    children: <Widget>[
+                      Container(
+                        child: DataChart(
+                          data: posts,
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
+                    ],
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -232,8 +240,10 @@ class _MyMenuPageState extends State<MyMenuPage> {
         title: new Text('App Name'),
       ),
       body: Column(
-        children: [
-          _children[_currentIndex],
+        children: <Widget>[
+          Container(
+            child: _children[_currentIndex],
+          ),
           Container(
             child: Center(
               child: Column(
