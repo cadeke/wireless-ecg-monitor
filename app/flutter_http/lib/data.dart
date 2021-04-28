@@ -50,29 +50,34 @@ class DataPageState extends State<DataPage> {
         centerTitle: true,
         title: Text('Wireless ECG Monitor'),
       ),
-      body: FutureBuilder(
-        future: httpService.getData(),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<DataPoint>> snapshot) {
-          if (snapshot.hasData) {
-            List<DataPoint> posts = snapshot.data;
-            return ListView(
-              children: posts
-                  .map(
-                    (DataPoint dp) => ListTile(
-                      title: Text("DataPoint"),
-                      subtitle: Text("TS:" +
-                          dp.timestamp.toString() +
-                          " V: " +
-                          dp.voltage.toString()),
-                    ),
-                  )
-                  .toList(),
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
+      body: Column(
+        children: [
+          _children[_currentIndex],
+          FutureBuilder(
+            future: httpService.getData(),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<DataPoint>> snapshot) {
+              if (snapshot.hasData) {
+                List<DataPoint> posts = snapshot.data;
+                return ListView(
+                  children: posts
+                      .map(
+                        (DataPoint dp) => ListTile(
+                          title: Text("DataPoint"),
+                          subtitle: Text("TS:" +
+                              dp.timestamp.toString() +
+                              " V: " +
+                              dp.voltage.toString()),
+                        ),
+                      )
+                      .toList(),
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -127,25 +132,30 @@ class _MySearchPageState extends State<MySearchPage> {
       appBar: new AppBar(
         title: new Text('App Name'),
       ),
-      body: FutureBuilder(
-        future: httpService.getData(),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<DataPoint>> snapshot) {
-          if (snapshot.hasData) {
-            List<DataPoint> posts = snapshot.data;
-            return ListView(
-              children: <Widget>[
-                Container(
-                  child: DataChart(
-                    data: posts,
-                  ),
-                ),
-              ],
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
+      body: Column(
+        children: [
+          _children[_currentIndex],
+          FutureBuilder(
+            future: httpService.getData(),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<DataPoint>> snapshot) {
+              if (snapshot.hasData) {
+                List<DataPoint> posts = snapshot.data;
+                return ListView(
+                  children: <Widget>[
+                    Container(
+                      child: DataChart(
+                        data: posts,
+                      ),
+                    ),
+                  ],
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -221,24 +231,29 @@ class _MyMenuPageState extends State<MyMenuPage> {
       appBar: new AppBar(
         title: new Text('App Name'),
       ),
-      body: Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
+      body: Column(
+        children: [
+          _children[_currentIndex],
+          Container(
+            child: Center(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(formatTime(_stopwatch.elapsedMilliseconds),
-                      style: TextStyle(fontSize: 48.0)),
-                  ElevatedButton(
-                      onPressed: handleStartStop,
-                      child: Text(_stopwatch.isRunning ? 'Stop' : 'Start')),
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(formatTime(_stopwatch.elapsedMilliseconds),
+                          style: TextStyle(fontSize: 48.0)),
+                      ElevatedButton(
+                          onPressed: handleStartStop,
+                          child: Text(_stopwatch.isRunning ? 'Stop' : 'Start')),
+                    ],
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
