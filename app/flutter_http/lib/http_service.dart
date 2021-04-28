@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 
 class HttpService {
   final String serverURL = "http://10.0.2.2:3000/data/short";
-  final String postsUrl = "https://jsonplaceholder.typicode.com/posts";
 
   Future<List<DataPoint>> getData() async {
     Response res = await get(Uri.parse(serverURL));

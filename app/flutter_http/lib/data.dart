@@ -11,6 +11,14 @@ final ThemeData themeData = ThemeData(
   canvasColor: Colors.red[100],
 );
 
+String formatTime(int milliseconds) {
+  var secs = milliseconds ~/ 1000;
+  var hours = (secs ~/ 3600).toString().padLeft(2, '0');
+  var minutes = ((secs % 3600) ~/ 60).toString().padLeft(2, '0');
+  var seconds = (secs % 60).toString().padLeft(2, '0');
+  return "$hours:$minutes:$seconds";
+}
+
 class DataPage extends StatefulWidget {
   DataPage({Key key}) : super(key: key);
 
@@ -22,7 +30,7 @@ class DataPageState extends State<DataPage> {
   String currentPage;
   int _currentIndex = 0;
   final List<Widget> _children = <Widget>[
-    //Home(),
+    DataPage(),
     MySearchPage(),
     MyMenuPage(),
   ];
@@ -144,11 +152,11 @@ class MySearchPage extends StatefulWidget {
 class _MySearchPageState extends State<MySearchPage> {
   String currentPage;
   int _currentIndex = 1;
-  // final List<Widget> _children = <Widget>[
-  //   Home(),
-  //   Search(),
-  //   Menu(),
-  // ];
+  final List<Widget> _children = <Widget>[
+    DataPage(),
+    MySearchPage(),
+    MyMenuPage(),
+  ];
 
   void onTabTapped(int index) {
     setState(() {
@@ -162,7 +170,22 @@ class _MySearchPageState extends State<MySearchPage> {
       appBar: new AppBar(
         title: new Text('App Name'),
       ),
-      body: new ListView(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: 300,
+              height: 300,
+              child: Center(
+                child: Text(
+                  'Comming Soon',
+                  style: TextStyle(fontSize: 30),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: onTabTapped,
@@ -197,12 +220,12 @@ class MyMenuPage extends StatefulWidget {
 
 class _MyMenuPageState extends State<MyMenuPage> {
   String currentPage;
-  int _currentIndex = 1;
-  // final List<Widget> _children = <Widget>[
-  //   Home(),
-  //   Search(),
-  //   Menu(),
-  // ];
+  int _currentIndex = 2;
+  final List<Widget> _children = <Widget>[
+    DataPage(),
+    MySearchPage(),
+    MyMenuPage(),
+  ];
 
   void onTabTapped(int index) {
     setState(() {
@@ -216,7 +239,22 @@ class _MyMenuPageState extends State<MyMenuPage> {
       appBar: new AppBar(
         title: new Text('App Name'),
       ),
-      body: new ListView(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              width: 300,
+              height: 300,
+              child: Center(
+                child: Text(
+                  'Comming Soon',
+                  style: TextStyle(fontSize: 30),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: onTabTapped,
