@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 });
 
 // Short list of data
-app.get("/data/short", (req, res) => {
+app.get("/ecg/short", (req, res) => {
   // Query for 30s of data
   let t1 =
   `from(bucket: "${bucket}") |> range(start: -${shortQuery}) |> filter(fn: (r) => r._measurement == "${measurementName}" and r._field == "${fieldVoltageName}")`;
@@ -73,7 +73,7 @@ app.get("/data/short", (req, res) => {
 });
 
 // Medium list of data
-app.get("/data/medium", (req, res) => {
+app.get("/ecg/medium", (req, res) => {
   // Query for 1 minute of data
   let t1 =
   `from(bucket: "${bucket}") |> range(start: -${mediumQuery}) |> filter(fn: (r) => r._measurement == "${measurementName}" and r._field == "${fieldVoltageName}")`;
@@ -113,7 +113,7 @@ app.get("/data/medium", (req, res) => {
 });
 
 // Long list of data
-app.get("/data/long", (req, res) => {
+app.get("/ecg/long", (req, res) => {
   // Query for 2 minutes of data
   let t1 =
   `from(bucket: "${bucket}") |> range(start: -${longQuery}) |> filter(fn: (r) => r._measurement == "${measurementName}" and r._field == "${fieldVoltageName}")`;
